@@ -4,7 +4,7 @@
 
 `npm install @capacitor/camera @capacitor/storage @capacitor/filesystem`
 
-Estas servirán para el control de la cámara, el almacenamiento y el sistema de archivos del dispositivo móvil
+*Estas servirán para el control de la cámara, el almacenamiento y el sistema de archivos del dispositivo móvil*
 
 -> Si la aplicación se va a ejecutar en el navegador en un principio, es necesario instalar la dependencia de PWA para poder emular las funcionalidades correctamente.
 
@@ -32,32 +32,77 @@ Estas servirán para el control de la cámara, el almacenamiento y el sistema de
 #### Función para eliminar imagen
 ![image](https://user-images.githubusercontent.com/58191417/147398293-3636e485-96bb-4f9f-bee2-ea06da13a83b.png)
 
-Las funciones presentadas son las que darán funcionamiento a la galería de fotos, con estas se podrá tomar la foto, guardarla y también eliminarla.
+*Las funciones presentadas son las que darán funcionamiento a la galería de fotos, con estas se podrá tomar la foto, guardarla y también eliminarla.*
 
-After the user navigates to Tab 2 (Photos), they can tap/click on the camera button to open up the device's camera. After taking or selecting a photo, it's stored permanently into the device's filesystem. When the user reopens the app at a later time, the photo images are loaded from the filesystem and displayed again in the gallery. The user can tap on a photo to be presented with the option to remove the photo.
+4) Para manejar los permisos que tendrá la aplicación, debemos definir las reglas en el archivo **AndroidManifest.xml**.
 
-#### Feature Overview
-* App framework: [React](https://reactjs.org/)
-* UI components: [Ionic Framework](https://ionicframework.com/docs/components)
-  * Camera button: [Floating Action Button (FAB)](https://ionicframework.com/docs/api/fab)
-  * Photo Gallery display: [Grid](https://ionicframework.com/docs/api/grid)
-  * Delete Photo dialog: [Action Sheet](https://ionicframework.com/docs/api/action-sheet) 
-* Native runtime: [Capacitor](https://capacitor.ionicframework.com)
-  * Taking photos: [Camera API](https://capacitor.ionicframework.com/docs/apis/camera)
-  * Writing photo to the filesystem: [Filesystem API](https://capacitor.ionicframework.com/docs/apis/filesystem)
-  * Storing photo gallery metadata: [Storage API](https://capacitor.ionicframework.com/docs/apis/storage)
+![image](https://user-images.githubusercontent.com/58191417/147422668-53b6208f-cb93-4043-8fc1-07ece6ae9d6f.png)
 
-## Project Structure
-* Tab2 (Photos) (`src/pages/Tab2.tsx`): Photo Gallery UI and basic logic.
-* usePhotoGallery Hook (`src/hooks/usePhotoGallery.ts`): Logic encapsulating Capacitor APIs, including Camera, Filesystem, and Storage.
+5) Finalmente, invocamos a las funciones de tomar foto y borrar foto en los componentes que tendrán esta funcionalidad dentro de la aplicación. Esto en el archivo **Tab2.tsx**.
 
-## How to Run
+![image](https://user-images.githubusercontent.com/58191417/147422782-3c809918-ce0a-451f-847f-cf78161f9983.png)
 
-> Note: It's highly recommended to follow along with the [tutorial guide](https://ionicframework.com/docs/react/your-first-app), which goes into more depth, but this is the fastest way to run the app. 
+## Funcionamiento de la aplicación
 
-0) Install Ionic if needed: `npm install -g @ionic/cli`.
-1) Clone this repository.
-2) In a terminal, change directory into the repo: `cd photo-gallery-capacitor-react`.
-3) Install all packages: `npm install`.
-4) Run on the web: `ionic serve`.
-5) Run on iOS or Android: See [here](https://ionicframework.com/docs/building/running).
+a) Para probar la aplicación, ejecutamos el comando `ionic serve`, este lanzará la aplicación en un servidor local y se presentará en el navegador la siguiente pantalla:
+
+![image](https://user-images.githubusercontent.com/58191417/147422869-4764e474-7c97-48f1-8af2-aff95d7691e8.png)
+
+b) Al dar click por primera vez en el botón de la cámara, se solicitará permiso para acceder a la misma. Una vez concedido se iniciará la cámara del dispositivo de la siguiente manera:
+
+![image](https://user-images.githubusercontent.com/58191417/147423038-e5972279-c851-472a-bce5-fbc11e9baa32.png)
+
+c) Al dar click en el botón, este tomará la foto, podemos elegir guardarla dando click en el **✓** o descartarla presionando la **X**
+
+![image](https://user-images.githubusercontent.com/58191417/147422972-82e1f63f-4d6f-4b8c-bb6b-0daeffb09644.png)
+
+d) Al abrirse la cámara, se mostrará también un botón que, al dar click en el, nos permitira agregar imágenes a la galería manualmente.
+
+![image](https://user-images.githubusercontent.com/58191417/147427460-bb29a6d3-403c-41a2-b81f-80e10be55631.png)
+
+*El botón abrirá el explorador de archivos del dispositivo (en este caso del ordenador) para así poder elegir la imagen que querramos subir.*
+
+e) De esta manera la galería de fotos presentará las imagenes y fotos que se hayan almacenado
+
+![image](https://user-images.githubusercontent.com/58191417/147427731-cdd7a9c6-69f3-4ba7-93b7-87bdf1fcc271.png)
+
+## APK y Bundle
+
+#### Construcción de la aplicación
+
+I) Ejecutamos el comando `ionic build` en la raíz del proyecto para generar el directorio **build**, esta carpeta será la base para "compilar" el proyecto para cada plataforma deseada.
+
+![image](https://user-images.githubusercontent.com/58191417/147428145-a69b14d4-c465-4309-b94d-1a0e40a1c6e7.png)
+
+II) Una vez generado el directorio **build**, ejecutamos el comando `ionic cap add android`. Este comando creará el directorio **android** que será la aplicación como tal para la plataforma Android (si se requiere para plataforma IOS bastaría la ejecución del comando `ionic cap add ios`).
+
+![image](https://user-images.githubusercontent.com/58191417/147428312-bb1caa15-8b53-4ff8-9995-f62349bce5c2.png)
+
+III) Realizado esto, es posible abrir el proyecto de android directamente en el IDE Android Studio con el comando `ionic cap open android`.
+
+#### Creación del APK 
+
+• Dentro de Android Studio, nos dirigimos a la ruta **Build > Build Bundle(s)/APK(s) > Build APK(s)**
+
+![image](https://user-images.githubusercontent.com/58191417/147428647-2aaaa73c-7d80-48d4-a20c-f3269f6f1a33.png)
+
+• Comenzará un proceso de Gradle y el resultado final será el archivo **apk** de la aplicación, al cual podremos acceder desde el explorador de archivos del sistema:
+
+![image](https://user-images.githubusercontent.com/58191417/147428986-93b7a32f-7fbf-46f7-a151-aa9cc95c1dfb.png)
+
+#### Creación del Bundle
+
+• Dentro de Android Studio, nos dirigimos a la ruta **Build > Build Bundle(s)/APK(s) > Build Bundle(s)**
+
+![image](https://user-images.githubusercontent.com/58191417/147428857-326477e7-2d8c-4820-9bdb-3c7cd877f398.png)
+
+• Comenzará un proceso de Gradle y el resultado final será el archivo **aab** de la aplicación, al cual podremos acceder desde el explorador de archivos del sistema:
+
+![image](https://user-images.githubusercontent.com/58191417/147429034-1c991a1b-9071-4c00-9fdd-e314e7952507.png)
+
+### Instalación en dispositivo
+
+Una vez generado el APK, podemos instalar la aplicación en un dispositivo Android y obtendremos el mismo resultado
+
+![image](https://user-images.githubusercontent.com/58191417/147431526-35d6d41b-7343-404e-a965-c0f2d9518c37.png)
+![image](https://user-images.githubusercontent.com/58191417/147431157-f78ba697-de56-4607-8cdd-7f8fce2f0586.png)
