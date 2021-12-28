@@ -1,6 +1,9 @@
 Integrantes:
+
 • Carlos Díaz
+
 • John Vasconez
+
 • Alexis Yépez
 
 # App de galería de fotos en Ionic con React
