@@ -1,3 +1,8 @@
+Integrantes:
+• Carlos Díaz
+• John Vasconez
+• Alexis Yépez
+
 # App de galería de fotos en Ionic con React
 
 -> Para comenzar con la construcción de la aplicación móvil, es necesario instalar las siguientes dependencias:
